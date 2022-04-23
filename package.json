@@ -1,0 +1,33 @@
+{
+  "name": "deployment-quickly",
+  "version": "0.0.1",
+  "description": "node实现自动化部署项目至服务器",
+  "main": "index.js",
+  "bin": {
+    "dq": "./index.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/left0ver/deployment-quilkly.git"
+  },
+  "author": "left0ver",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/left0ver/deployment-quilkly/issues"
+  },
+  "homepage": "https://github.com/left0ver/deployment-quilkly#readme",
+  "dependencies": {
+    "commander": "^9.2.0",
+    "inquirer": "^8.2.2",
+    "node-ssh": "^12.0.4",
+    "ora": "^6.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.1.0",
+    "eslint-plugin-promise": "^6.0.0"
+  }
+}
