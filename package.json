@@ -1,6 +1,6 @@
 {
   "name": "deployment-quickly",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "node实现自动化部署项目至服务器",
   "main": "index.js",
   "bin": {
