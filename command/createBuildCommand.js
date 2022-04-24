@@ -4,10 +4,9 @@ const { program } = require('commander')
 const buildAction = require('../actions/buildAction')
 function createBuildCommand () {
   program
-    .name('build')
     .command('build')
     .description('将本地的指定文件夹部署到服务器')
-    .option('-H --host [host]', '上传的服务器的目录')
+    .option('-H --host [host]', '上传的服务器ip')
     .option('-p --port [port]', '设置ssh连接的端口号,默认是22')
     .option('-u --user [username]', '服务器登录的用户名')
     .option('-k --privateKey [privateKey]', '私钥保存的位置')
