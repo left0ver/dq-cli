@@ -1,0 +1,7 @@
+{
+    "host": "112.74.50.60",
+    "username": "root",
+    "privateKey": "C:/Users/ASUS/.ssh/id_rsa_client",
+    "localPath":"./dist",
+    "remotePath":"/home/root"
+}
