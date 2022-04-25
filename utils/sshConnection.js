@@ -2,6 +2,7 @@
 const path = require('path')
 const { NodeSSH } = require('node-ssh')
 const cwd = require('../utils/getCwd')
+
 const ssh = new NodeSSH()
 async function sshConnect ({
   host,
@@ -30,18 +31,17 @@ async function sshConnect ({
         const localFullPath = path.isAbsolute(localPath)
           ? localPath
           : path.resolve(cwd, localPath)
+          // 默认上传的服务器是Linux
         const remoteFullPath = path.isAbsolute(localPath)
-          ? path.join(remotePath, path.basename(localPath))
-          : path.join(remotePath, localPath)
-
+          ? path.posix.resolve(remotePath, path.basename(localPath))
+          : path.posix.resolve(remotePath, localPath)
         try {
           const isSuccess = await ssh.putDirectory(localFullPath, remoteFullPath, {
             recursive: true,
             concurrency: 10,
             validate: function (itemPath) {
               const baseName = path.basename(itemPath)
-              return baseName.slice(0, 1) !== '.' && // 不允许隐藏文件
-                         baseName !== 'node_modules' // 不上传node_modules文件夹
+              return baseName !== 'node_modules' // 不上传node_modules文件夹和隐藏文件
             }
           })
           // 成功部署
