@@ -13,7 +13,8 @@ function buildAction (options) {
     password: options.PWD,
     privateKey: options.privateKey,
     localPath: options.local,
-    remotePath: options.dest
+    remotePath: options.dest,
+    os: options.os
   }
   return new Promise((resolve, reject) => {
     //  最终配置
@@ -31,6 +32,7 @@ function buildAction (options) {
       // 合并默认配置和命令行配置
       finalConfig = mergeConfig(defaultConfig, inputConfig)
     }
+    console.log(finalConfig);
     sshConnect(finalConfig)
       .then(res => {
         resolve(res)

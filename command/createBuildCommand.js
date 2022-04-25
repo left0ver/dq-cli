@@ -1,6 +1,4 @@
 const { program } = require('commander')
-// const sshConnect = require('../utils/sshConnection')
-// const userConfig = require('../utils/createConfig')
 const buildAction = require('../actions/buildAction')
 function createBuildCommand () {
   program
@@ -13,8 +11,7 @@ function createBuildCommand () {
     .option('-P --PWD [password]', '登录密码')
     .option('-l --local [localPath]', '要上传的文件夹的位置,默认是当前工作目录的dist文件夹')
     .option('-d --dest [destination]', '要上传的服务器的哪个目录下')
-    // 先将命令行输入的和配置文件进行合并
-    // 再将结果和默认配置进行合并
+    .option('-o --os [os]', '服务器的操作系统(只支持windows和linux)')
     .action((...args) => {
       buildAction(...args).then(res => {
         console.log(res)

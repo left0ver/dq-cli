@@ -3,5 +3,6 @@
     "username": "root",
     "privateKey": "C:/Users/ASUS/.ssh/id_rsa_client",
     "localPath":"./dist",
-    "remotePath":"/home/root"
+    "remotePath":"/home/root",
+    "os":"linux"
 }

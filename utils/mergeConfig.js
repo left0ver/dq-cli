@@ -1,4 +1,4 @@
-// 获得完整的配置
+// 合并配置
 function mergeConfig (defaultConfig, userConfig) {
   for (const key in defaultConfig) {
     if (Object.hasOwnProperty.call(defaultConfig, key)) {
