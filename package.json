@@ -2,26 +2,35 @@
   "name": "deployment-quickly",
   "version": "0.0.3",
   "description": "node实现自动化部署项目至服务器",
+  "keywords":["deployment-quickly","dq","qd","quickly-deployment"],
   "main": "index.js",
   "bin": {
     "dq": "./index.js"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+},
   "scripts": {
     "pb": "npm config set registry https://registry.npmjs.org && npm publish && npm config set registry https://registry.npm.taobao.org",
     "tag": "git tag -a v%npm_package_version%",
     "release": "npm run pb && npm run tag",
     "lint": "eslint ./ --fix",
     "prepare": "husky install",
-    "cm":"npx cz"
+    "cm": "npx cz"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/left0ver/deployment-quilkly.git"
   },
-  "author": "left0ver",
+  "author": {
+    "name": "left0ver",
+    "url":"https://github.com/left0ver"
+  },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/left0ver/deployment-quilkly/issues"
+    "url": "https://github.com/left0ver/deployment-quilkly/issues",
+    "email" : "1614674987@qq.com"
   },
   "homepage": "https://github.com/left0ver/deployment-quilkly#readme",
   "dependencies": {
