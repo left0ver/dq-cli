@@ -32,7 +32,7 @@ function buildAction (options) {
       // 合并默认配置和命令行配置
       finalConfig = mergeConfig(defaultConfig, inputConfig)
     }
-    console.log(finalConfig);
+    console.log(finalConfig)
     sshConnect(finalConfig)
       .then(res => {
         resolve(res)
