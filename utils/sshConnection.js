@@ -3,6 +3,7 @@ const path = require('path')
 const { NodeSSH } = require('node-ssh')
 const cwd = require('../utils/getCwd')
 const ssh = new NodeSSH()
+// 在远程服务器执行某个命令
 function runCommand (command, cwd = '/') {
   return new Promise((resolve, reject) => {
     ssh.execCommand(command, { cwd })
@@ -12,6 +13,7 @@ function runCommand (command, cwd = '/') {
       .catch((err) => reject(err))
   })
 }
+// 判断文件和目录是否存在
 async function getFileStatus (root, name, isDir = true) {
   const { stdout } = isDir ? await runCommand(`find ${root} -type d -name ${name}`) : await runCommand(`find ${root} -type f -name ${name}`)
   return stdout !== ''
@@ -44,26 +46,19 @@ async function sshConnect ({
         const localFullPath = path.isAbsolute(localPath)
           ? localPath
           : path.resolve(cwd, localPath)
-        let remoteFullPath
         // Windows和Linux上对应不同的路径
-        if (os.toLowerCase() === 'linux') {
-          remoteFullPath = path.isAbsolute(localPath)
-            ? path.posix.resolve(remotePath, path.basename(localPath))
-            : path.posix.resolve(remotePath, localPath)
-        } else {
-          remoteFullPath = path.isAbsolute(localPath)
-            ? path.win32.resolve(remotePath, path.basename(localPath))
-            : path.win32.resolve(remotePath, localPath)
-        }
+        const remoteFullPath = os.toLowerCase() === 'linux'
+          ? path.posix.resolve(remotePath, path.basename(localPath))
+          : path.win32.resolve(remotePath, path.basename(localPath))
         const basename = path.basename(remoteFullPath)
         const MainIsExist = await getFileStatus(remotePath, basename, true)
         if (MainIsExist) {
           // 备份目录
           const bakDir = os.toLowerCase() === 'linux'
-            ? path.posix.resolve(remotePath, path.basename(remoteFullPath) + '1')
-            : path.win32.resolve(remotePath, path.basename(remoteFullPath) + '1')
+            ? path.posix.resolve(remotePath, basename + '.bak')
+            : path.win32.resolve(remotePath, basename + '.bak')
           // 备份目录的状态
-          const banIsExist = await getFileStatus(bakDir, basename + 1, true)
+          const banIsExist = await getFileStatus(bakDir, basename + '.bak', true)
           if (banIsExist) {
             // 删除原先备份目录
             await runCommand(`rm -rf ${bakDir}`)
