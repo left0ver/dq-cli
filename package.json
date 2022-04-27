@@ -1,6 +1,6 @@
 {
   "name": "dq-cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "node实现自动化部署项目至服务器",
   "keywords": [
     "dq-cli",
@@ -21,8 +21,7 @@
     "release": "npm run pb && npm run tag",
     "lint": "eslint ./ --fix",
     "prepare": "husky install",
-    "cm": "npx cz",
-    "start": "cross-env NODE_ENV=development dq build -H  112.74.50.60 -p 22 -u root -k C:\\Users\\ASUS\\.ssh\\id_rsa_client -P Zwc666666 -l C:\\Users\\ASUS\\Desktop\\deployment-quilkly\\dist -d /home/root/ -o linux -c .\\config\\dq.config.json"
+    "cm": "npx cz"
   },
   "repository": {
     "type": "git",
