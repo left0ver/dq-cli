@@ -1,17 +1,21 @@
 <div align='center'><img align='center' src='https://leftover-md.oss-cn-guangzhou.aliyuncs.com/img-md/logo1.jpg'/></div>
 
-![GitHub](https://img.shields.io/github/license/left0ver/dq-cli)                   ![npm](https://img.shields.io/npm/v/deployment-quickly)
+![GitHub](https://img.shields.io/github/license/left0ver/dq-cli)                   ![npm](https://img.shields.io/npm/v/ldq-cli)
 
-dq-cli是一个命令行工具，配置项简单，一条命令即可让你将项目部署至windows或者Linux服务器。
+dq-cli是一个命令行工具，配置项简单，既可以一条命令即可让你将项目部署至windows或者Linux服务器，也可也帮助你搭建迅速搭建一个前端工程化的项目
 
 # 特点
 
 - 命令行部署项目
 - 使用现成的模板搭建项目，迅速搭建起一个规范的项目
-
+# 下载
+  ```bash
+   npm i ldq-cli -g
+  ```
+  `不要打错了哦`
 # Usage
 
-## 命令行部署项目
+### 命令行部署项目
 
 1. 本命令行工具支持ssh连接，密码连接服务器的方式，如果您需要适应ssh连接的方式，请先在客户端的电脑上生成对应的ssh密钥对，然后将公钥放到服务器上。当然如果您不想这么麻烦，也可以使用密码的方式。
 
@@ -20,7 +24,7 @@ dq-cli是一个命令行工具，配置项简单，一条命令即可让你将�
 3. 部署的时候会自动将服务器中原本的文件夹进行一个备份，备份的文件夹为`[your dirname].bak`
 
 4. 命令行的配置项会覆盖配置文件中相同的配置项
-
+  
   ```bash
 $ dq build --help
    Options:
@@ -41,7 +45,7 @@ $ dq build --help
    
    
 
-   ## 使用配置文件
+   ### 使用配置文件
 
    默认配置文件和配置文件的配置项如下，您可以使用-c指定配置文件路径，默认工作目录下的dq.config.json文件
 
@@ -58,13 +62,12 @@ $ dq build --help
    }
    ```
    
-   ## warn
+ warn
 
-5. 该工具暂时只在Windows电脑上进行测试（其实是没钱买mac），如需在mac或者Linux上运行，请自测，以后会在Linux测试
+`1. 该工具暂时只在Windows电脑上进行测试（其实是没钱买mac），如需在mac或者Linux上运行，请自测，以后会在Linux测试`
+`2. Windows里面不要使用`bash` 运行，会导致路径对不上，导致部署的文件夹错误`
 
-6. Windows里面不要使用`bash` 运行，会导致路径对不上，导致部署的文件夹错误
-
-## 拉取模板搭建项目
+### 拉取模板搭建项目
 
 敬请期待！
 
