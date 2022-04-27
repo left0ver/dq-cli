@@ -1,12 +1,11 @@
 {
-  "name": "deployment-quickly",
+  "name": "dq-cli",
   "version": "0.0.3",
   "description": "node实现自动化部署项目至服务器",
   "keywords": [
-    "deployment-quickly",
+    "dq-cli",
     "dq",
-    "qd",
-    "quickly-deployment"
+    "qd"
   ],
   "main": "index.js",
   "bin": {
@@ -22,11 +21,12 @@
     "release": "npm run pb && npm run tag",
     "lint": "eslint ./ --fix",
     "prepare": "husky install",
-    "cm": "npx cz"
+    "cm": "npx cz",
+    "start": "cross-env NODE_ENV=development dq build -H  112.74.50.60 -p 22 -u root -k C:\\Users\\ASUS\\.ssh\\id_rsa_client -P Zwc666666 -l C:\\Users\\ASUS\\Desktop\\deployment-quilkly\\dist -d /home/root/ -o linux -c .\\config\\dq.config.json"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/left0ver/deployment-quilkly.git"
+    "url": "https://github.com/left0ver/dq-cli.git"
   },
   "author": {
     "name": "left0ver",
@@ -34,10 +34,10 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/left0ver/deployment-quilkly/issues",
+    "url": "https://github.com/left0ver/dq-cli/issues",
     "email": "1614674987@qq.com"
   },
-  "homepage": "https://github.com/left0ver/deployment-quilkly#readme",
+  "homepage": "https://github.com/left0ver/dq-cli#readme",
   "dependencies": {
     "commander": "^9.2.0",
     "inquirer": "^8.2.2",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "commitizen": "^4.2.4",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.14.0",
     "eslint-config-standard": "^17.0.0",
