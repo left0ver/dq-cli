@@ -1,6 +1,6 @@
-<img align='center' src='https://leftover-md.oss-cn-guangzhou.aliyuncs.com/img-md/logo1.jpg'/>
+<div align='center'><img align='center' src='https://leftover-md.oss-cn-guangzhou.aliyuncs.com/img-md/logo1.jpg'/></div>
 
-![GitHub](https://img.shields.io/github/license/left0ver/dq-cli)![npm](https://img.shields.io/npm/v/deployment-quickly)
+![GitHub](https://img.shields.io/github/license/left0ver/dq-cli)                   ![npm](https://img.shields.io/npm/v/deployment-quickly)
 
 dq-cli是一个命令行工具，配置项简单，一条命令即可让你将项目部署至windows或者Linux服务器。
 
@@ -21,7 +21,7 @@ dq-cli是一个命令行工具，配置项简单，一条命令即可让你将�
 
 4. 命令行的配置项会覆盖配置文件中相同的配置项
 
-   ```bash
+  ```bash
 $ dq build --help
    Options:
    Options:
