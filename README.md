@@ -1,4 +1,4 @@
-![logo1](https://leftover-md.oss-cn-guangzhou.aliyuncs.com/img-md/logo1.jpg)
+<img align='center' src='https://leftover-md.oss-cn-guangzhou.aliyuncs.com/img-md/logo1.jpg'/>
 
 ![GitHub](https://img.shields.io/github/license/left0ver/dq-cli)![npm](https://img.shields.io/npm/v/deployment-quickly)
 
