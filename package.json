@@ -1,6 +1,6 @@
 {
   "name": "ldq-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "node实现自动化部署项目至服务器",
   "keywords": [
     "ldq-cli",
@@ -18,7 +18,7 @@
   },
   "scripts": {
     "pb": "npm publish",
-    "tag": "git tag -a v%npm_package_version%",
+    "tag": "git tag -a v%npm_package_version% && git push v%npm_package_version%",
     "release": "npm run pb && npm run tag",
     "lint": "eslint ./ --fix",
     "prepare": "husky install",
