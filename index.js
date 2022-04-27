@@ -2,7 +2,7 @@
 'use strict'
 const { program } = require('commander')
 const packageJSon = require('./package.json')
-const createBuildCommand = require('./command/createBuildCommand')
+const { createBuildCommand } = require('./command/index')
 const version = packageJSon.version
 program.version(version)
 createBuildCommand()

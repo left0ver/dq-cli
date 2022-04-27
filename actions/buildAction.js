@@ -29,6 +29,7 @@ function buildAction (options) {
       userConfigPath = path.resolve(cwd, 'dq.config.json')
     }
     console.log(userConfigPath)
+    console.log(options.config)
     const isExist = existsSync(userConfigPath)
     if (isExist) {
       const userConfig = require(userConfigPath)
@@ -40,6 +41,9 @@ function buildAction (options) {
       // 没有配置文件则会合并默认配置和命令行输入的配置
       finalConfig = mergeConfig(defaultConfig, inputConfig)
     }
+    // if (process.env.NODE_ENV === 'development') {
+
+    // }
     console.log(finalConfig)
     sshConnect(finalConfig)
       .then(res => {

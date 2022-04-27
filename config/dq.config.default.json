@@ -1,10 +1,10 @@
 {
     "host": "localhost",
-    "username": "root",
     "port": 22,
-    "password": "",
+    "username": "root",
     "privateKey": "C:/Users/ASUS/.ssh/id_rsa",
-    "localPath":"./dist",
+    "password": "",
+    "localPath":"C:\\Users\\ASUS\\Desktop\\deployment-quilkly\\dist",
     "remotePath":"",
     "os": "linux"
 }

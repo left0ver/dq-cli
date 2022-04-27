@@ -1,8 +1,12 @@
 {
-  "name": "deployment-quickly",
-  "version": "0.0.3",
+  "name": "dq-cli",
+  "version": "0.0.4",
   "description": "node实现自动化部署项目至服务器",
-  "keywords":["deployment-quickly","dq","qd","quickly-deployment"],
+  "keywords": [
+    "dq-cli",
+    "dq",
+    "qd"
+  ],
   "main": "index.js",
   "bin": {
     "dq": "./index.js"
@@ -10,7 +14,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-},
+  },
   "scripts": {
     "pb": "npm config set registry https://registry.npmjs.org && npm publish && npm config set registry https://registry.npm.taobao.org",
     "tag": "git tag -a v%npm_package_version%",
@@ -21,18 +25,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/left0ver/deployment-quilkly.git"
+    "url": "https://github.com/left0ver/dq-cli.git"
   },
   "author": {
     "name": "left0ver",
-    "url":"https://github.com/left0ver"
+    "url": "https://github.com/left0ver"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/left0ver/deployment-quilkly/issues",
-    "email" : "1614674987@qq.com"
+    "url": "https://github.com/left0ver/dq-cli/issues",
+    "email": "1614674987@qq.com"
   },
-  "homepage": "https://github.com/left0ver/deployment-quilkly#readme",
+  "homepage": "https://github.com/left0ver/dq-cli#readme",
   "dependencies": {
     "commander": "^9.2.0",
     "inquirer": "^8.2.2",
@@ -41,6 +45,7 @@
   },
   "devDependencies": {
     "commitizen": "^4.2.4",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.14.0",
     "eslint-config-standard": "^17.0.0",
