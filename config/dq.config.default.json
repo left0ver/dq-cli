@@ -4,7 +4,7 @@
     "username": "root",
     "privateKey": "C:/Users/ASUS/.ssh/id_rsa",
     "password": "",
-    "localPath":"./dist",
+    "localPath":"C:\\Users\\ASUS\\Desktop\\deployment-quilkly\\dist",
     "remotePath":"",
     "os": "linux"
 }

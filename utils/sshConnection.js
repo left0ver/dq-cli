@@ -46,11 +46,12 @@ async function sshConnect ({
         const localFullPath = path.isAbsolute(localPath)
           ? localPath
           : path.resolve(cwd, localPath)
+        const basename = path.basename(localFullPath)
         // Windows和Linux上对应不同的路径
         const remoteFullPath = os.toLowerCase() === 'linux'
-          ? path.posix.resolve(remotePath, path.basename(localPath))
-          : path.win32.resolve(remotePath, path.basename(localPath))
-        const basename = path.basename(remoteFullPath)
+          ? path.posix.resolve(remotePath, basename)
+          : path.win32.resolve(remotePath, basename)
+
         const MainIsExist = await getFileStatus(remotePath, basename, true)
         if (MainIsExist) {
           // 备份目录
