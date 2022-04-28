@@ -18,7 +18,7 @@
   },
   "scripts": {
     "pb": "npm publish",
-    "tag": "git tag -a v%npm_package_version% && git push v%npm_package_version%",
+    "tag": "git tag -a v%npm_package_version% && git push origin v%npm_package_version%",
     "release": "npm run pb && npm run tag",
     "lint": "eslint ./ --fix",
     "prepare": "husky install",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/left0ver/dq-cli.git"
+    "url": "git+https://github.com/left0ver/dq-cli.git"
   },
   "author": {
     "name": "left0ver",
@@ -40,6 +40,7 @@
   "homepage": "https://github.com/left0ver/dq-cli#readme",
   "dependencies": {
     "commander": "^9.2.0",
+    "fs-extra": "^10.1.0",
     "inquirer": "^8.2.2",
     "node-ssh": "^12.0.4",
     "ora": "^6.1.0"
