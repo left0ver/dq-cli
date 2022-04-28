@@ -1,2 +1,3 @@
 const buildAction = require('./buildAction')
-module.exports = { buildAction }
+const initAction = require('./initAction')
+module.exports = { buildAction, initAction }
