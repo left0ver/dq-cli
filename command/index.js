@@ -1,2 +1,3 @@
 const createBuildCommand = require('./createBuildCommand')
-module.exports = { createBuildCommand }
+const initCommand = require('./initCommand')
+module.exports = { createBuildCommand, initCommand }

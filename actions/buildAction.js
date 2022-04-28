@@ -4,6 +4,7 @@ const cwd = require('../utils/getCwd')
 const sshConnect = require('../utils/sshConnection')
 const mergeConfig = require('../utils/mergeConfig')
 const defaultConfig = require('../config/dq.config.default.json')
+const configName = require('../config/configName')
 function buildAction (options) {
   // 命令行输入的配置
   const inputConfig = {
@@ -26,10 +27,8 @@ function buildAction (options) {
       userConfigPath = path.isAbsolute(options.config) ? path.resolve(cwd, path.basename(options.config)) : path.resolve(cwd, options.config)
     } else {
       // 用户没有配置文件
-      userConfigPath = path.resolve(cwd, 'dq.config.json')
+      userConfigPath = path.resolve(cwd, configName)
     }
-    console.log(userConfigPath)
-    console.log(options.config)
     const isExist = existsSync(userConfigPath)
     if (isExist) {
       const userConfig = require(userConfigPath)
