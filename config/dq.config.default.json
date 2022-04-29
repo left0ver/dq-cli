@@ -5,6 +5,5 @@
     "privateKey": "",
     "password": "",
     "localPath":"./dist",
-    "remotePath":"",
-    "os": "linux"
+    "remotePath":""
 }

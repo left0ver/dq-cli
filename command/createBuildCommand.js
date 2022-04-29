@@ -1,6 +1,6 @@
 const { program } = require('commander')
 const { buildAction } = require('../actions/index')
-function createBuildCommand () {
+function createBuildCommand() {
   program
     .command('build')
     .description('将本地的指定文件夹部署到服务器')
@@ -11,7 +11,6 @@ function createBuildCommand () {
     .option('-P --PWD [password]', '登录密码')
     .option('-l --local [localPath]', '要上传的文件夹的位置,默认是当前工作目录的dist文件夹')
     .option('-d --dest [destination]', '要上传的服务器的哪个目录下,必须使用绝对路径')
-    .option('-o --os [os]', '服务器的操作系统,linux|windows,默认linux')
     .option('-c --config [config]', '选择配置文件的路径,默认当前工作目录下的dq.config.json文件')
     .action((...args) => {
       buildAction(...args).then(res => {

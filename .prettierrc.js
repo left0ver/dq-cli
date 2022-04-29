@@ -4,12 +4,12 @@ module.exports = {
   tabWidth: 2,
   useTabs: false,
   // 使用单引号
-  singleQuote: false,
-  endOfLine: "auto",
+  singleQuote: true,
+  endOfLine: 'auto',
   // 不要分号
   semi: false,
   // 箭头函数尽可能不要括号
-  arrowParens: "avoid",
+  arrowParens: 'avoid',
   rangeStart: 0,
   rangeEnd: Infinity,
 }
