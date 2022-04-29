@@ -5,7 +5,7 @@ const sshConnect = require('../utils/sshConnection')
 const mergeConfig = require('../utils/mergeConfig')
 const defaultConfig = require('../config/dq.config.default.json')
 const configName = require('../config/configName')
-function buildAction (options) {
+function buildAction(options) {
   // 命令行输入的配置
   const inputConfig = {
     host: options.host,
@@ -15,7 +15,7 @@ function buildAction (options) {
     privateKey: options.privateKey,
     localPath: options.local,
     remotePath: options.dest,
-    os: options.os
+    os: options.os,
   }
   return new Promise((resolve, reject) => {
     let finalConfig
@@ -24,7 +24,9 @@ function buildAction (options) {
       throw new Error('缺少对应的配置文件的路径')
     } else if (options.config !== undefined) {
       // 用户指定路径的配置文件
-      userConfigPath = path.isAbsolute(options.config) ? path.resolve(cwd, path.basename(options.config)) : path.resolve(cwd, options.config)
+      userConfigPath = path.isAbsolute(options.config)
+        ? path.resolve(cwd, path.basename(options.config))
+        : path.resolve(cwd, options.config)
     } else {
       // 用户没有配置文件
       userConfigPath = path.resolve(cwd, configName)
@@ -40,9 +42,9 @@ function buildAction (options) {
       // 没有配置文件则会合并默认配置和命令行输入的配置
       finalConfig = mergeConfig(defaultConfig, inputConfig)
     }
-    // if (process.env.NODE_ENV === 'development') {
-
-    // }
+    if (finalConfig.privateKey === '') {
+      finalConfig.privateKey = undefined
+    }
     console.log(finalConfig)
     sshConnect(finalConfig)
       .then(res => {
