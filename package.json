@@ -21,7 +21,6 @@
     "tag": "git tag -a v%npm_package_version% && git push origin v%npm_package_version%",
     "release": "npm run pb && npm run tag",
     "lint": "eslint ./ --fix",
-    "prepare": "husky install",
     "cm": "npx cz"
   },
   "repository": {
