@@ -1,4 +1,4 @@
-const { existsSync } = require('fs')
+const { existsSync } = require('fs-extra')
 const path = require('path')
 const cwd = require('../utils/getCwd')
 const sshConnect = require('../utils/sshConnection')

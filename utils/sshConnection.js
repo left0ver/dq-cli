@@ -3,8 +3,10 @@ const path = require('path')
 const fs = require('fs-extra')
 const ProgressBar = require('progress')
 const { NodeSSH } = require('node-ssh')
+const ora = require('ora')
 const cwd = require('../utils/getCwd')
 const archiver = require('archiver')
+const spinner = ora()
 const ssh = new NodeSSH()
 // 在远程服务器执行某个命令
 function runCommand(command, cwd = '/') {
@@ -32,11 +34,15 @@ function compress(unZipDirPath, zipDirPath) {
     })
     const output = fs.createWriteStream(zipDirPath)
     archive.on('error', function (err) {
+      spinner.fail('压缩失败')
       throw err
     })
     output.on('close', function () {
       resolve(archive.pointer())
-      console.log('压缩完成')
+      spinner.succeed('压缩完成')
+    })
+    output.on('open', function () {
+      spinner.start('开始压缩')
     })
     try {
       archive.pipe(output)
@@ -47,7 +53,7 @@ function compress(unZipDirPath, zipDirPath) {
     }
   })
 }
-
+// 上传进度条
 function upload(total) {
   const bar = new ProgressBar('upload [:bar] :percent ', {
     total,
@@ -61,7 +67,7 @@ function upload(total) {
 async function backUp(basename, cwd) {
   // 备份目录
   const bakDir = basename + '.bak'
-  // 备份目录的状态  有错误
+  // 备份目录的状态
   const bakIsExist = await getFileStatus(basename + '.bak', true, cwd)
   if (bakIsExist) {
     // 删除原先备份目录
@@ -96,12 +102,17 @@ async function sshConnect({ host, username, port, password, privateKey, localPat
         try {
           fs.existsSync(localZipPath) && fs.removeSync(localZipPath)
           const total = await compress(localFullPath, localZipPath)
+          // 进度条
           const bar = upload(total)
           await ssh.putFile(localZipPath, zipRemoteFullPath, null, {
-            step: (total_transferred, chunk) => {
+            step: (total_transferred, chunk, total) => {
               bar.tick(chunk)
+              if (total_transferred === total) {
+                spinner.succeed('上传成功')
+              }
             },
           })
+          spinner.start('部署中')
           const MainIsExist = await getFileStatus(basename, true, remotePath)
           if (MainIsExist) {
             await backUp(basename, remotePath)
@@ -109,12 +120,15 @@ async function sshConnect({ host, username, port, password, privateKey, localPat
           await runCommand(`unzip ${basename}.zip -d dist && rm -rf ${basename}.zip`, remotePath)
           fs.removeSync(localZipPath)
           // 成功部署
-          resolve('success')
+          resolve('部署完成')
+          spinner.succeed('部署完成')
         } catch (err) {
           reject(err)
+          spinner.fail('上传失败')
         }
       })
       .catch(err => {
+        spinner.fail('连接失败')
         reject(err)
       })
       .finally(() => {

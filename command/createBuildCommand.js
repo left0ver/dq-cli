@@ -12,10 +12,8 @@ function createBuildCommand() {
     .option('-l --local [localPath]', '要上传的文件夹的位置,默认是当前工作目录的dist文件夹')
     .option('-d --dest [destination]', '要上传的服务器的哪个目录下,必须使用绝对路径')
     .option('-c --config [config]', '选择配置文件的路径,默认当前工作目录下的dq.config.json文件')
-    .action((...args) => {
-      buildAction(...args).then(res => {
-        console.log(res)
-      })
+    .action(async (...args) => {
+      await buildAction(...args)
     })
 }
 module.exports = createBuildCommand
