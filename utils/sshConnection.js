@@ -76,12 +76,16 @@ async function backUp(basename, cwd) {
   await runCommand(`mv ${basename} ${bakDir}`, cwd)
 }
 
-async function sshConnect({ host, username, port, password, privateKey, localPath, remotePath }) {
-  // 在客户端生成密钥对，将公钥复制添加到云服务器上的/root/.ssh/目录下
-  // 看一下该目录下有没有authorized_keys,没有的话手动创建一个,
-  // 之后将复制的公钥的文件的内容追加到authorized_keys
-  // 例如: cat id_rsa_client.pub >> authorized_keys
-  // id_rsa_client.pub 是公钥的内容
+async function sshConnect({
+  host,
+  username,
+  port,
+  password,
+  privateKey,
+  localPath,
+  remotePath,
+  command,
+}) {
   return new Promise(function (resolve, reject) {
     ssh
       .connect({
@@ -94,7 +98,6 @@ async function sshConnect({ host, username, port, password, privateKey, localPat
       .then(async () => {
         //   本地地址
         const localFullPath = path.isAbsolute(localPath) ? localPath : path.resolve(cwd, localPath)
-
         const basename = path.basename(localFullPath)
         const localZipPath = path.resolve(process.cwd(), basename + '.zip')
         // 解压之前的路径
@@ -121,7 +124,13 @@ async function sshConnect({ host, username, port, password, privateKey, localPat
           if (MainIsExist) {
             await backUp(basename, remotePath)
           }
-          await runCommand(`unzip ${basename}.zip -d dist && rm -rf ${basename}.zip`, remotePath)
+          await runCommand(
+            `unzip ${basename}.zip -d ${basename} && rm -rf ${basename}.zip`,
+            remotePath
+          )
+          if (command !== undefined) {
+            await runCommand(command)
+          }
           fs.removeSync(localZipPath)
           // 成功部署
           resolve('部署完成')

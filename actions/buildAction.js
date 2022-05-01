@@ -15,6 +15,7 @@ function buildAction(options) {
     privateKey: options.privateKey,
     localPath: options.local,
     remotePath: options.dest,
+    command: options.exec,
   }
   return new Promise((resolve, reject) => {
     let finalConfig
@@ -46,6 +47,9 @@ function buildAction(options) {
     }
     if (finalConfig.password === '') {
       finalConfig.password = undefined
+    }
+    if (finalConfig.command === '') {
+      finalConfig.command = undefined
     }
     console.log(finalConfig)
     sshConnect(finalConfig)
