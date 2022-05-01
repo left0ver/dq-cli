@@ -94,12 +94,16 @@ async function sshConnect({ host, username, port, password, privateKey, localPat
       .then(async () => {
         //   本地地址
         const localFullPath = path.isAbsolute(localPath) ? localPath : path.resolve(cwd, localPath)
+
         const basename = path.basename(localFullPath)
         const localZipPath = path.resolve(process.cwd(), basename + '.zip')
         // 解压之前的路径
         const zipRemoteFullPath = path.posix.resolve(remotePath, basename + '.zip')
         // 上传
         try {
+          if (!fs.existsSync(localFullPath)) {
+            throw new Error(`${localFullPath}文件不存在`)
+          }
           fs.existsSync(localZipPath) && fs.removeSync(localZipPath)
           const total = await compress(localFullPath, localZipPath)
           // 进度条
