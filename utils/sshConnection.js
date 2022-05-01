@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path')
 const fs = require('fs-extra')
+const ProgressBar = require('progress')
 const { NodeSSH } = require('node-ssh')
 const cwd = require('../utils/getCwd')
 const archiver = require('archiver')
@@ -25,21 +26,37 @@ async function getFileStatus(name, isDir = true, cwd = '/') {
 }
 // 压缩
 function compress(unZipDirPath, zipDirPath) {
-  const archive = archiver('zip', {
-    zlib: { level: 9 },
+  return new Promise((resolve, reject) => {
+    const archive = archiver('zip', {
+      zlib: { level: 9 },
+    })
+    const output = fs.createWriteStream(zipDirPath)
+    archive.on('error', function (err) {
+      throw err
+    })
+    output.on('close', function () {
+      resolve(archive.pointer())
+      console.log('压缩完成')
+    })
+    try {
+      archive.pipe(output)
+      archive.directory(unZipDirPath, false)
+      archive.finalize()
+    } catch (error) {
+      reject(error)
+    }
   })
-  const output = fs.createWriteStream(zipDirPath)
-  archive.on('error', function (err) {
-    throw err
-  })
-  output.on('close', function () {
-    console.log('压缩完成')
-  })
-  archive.pipe(output)
-  archive.directory(unZipDirPath, false)
-  archive.finalize()
 }
 
+function upload(total) {
+  const bar = new ProgressBar('upload [:bar] :percent ', {
+    total,
+    width: 200,
+    complete: '=',
+    incomplete: ' ',
+  })
+  return bar
+}
 // 备份
 async function backUp(basename, cwd) {
   // 备份目录
@@ -77,14 +94,20 @@ async function sshConnect({ host, username, port, password, privateKey, localPat
         const zipRemoteFullPath = path.posix.resolve(remotePath, basename + '.zip')
         // 上传
         try {
-          compress(localFullPath, localZipPath)
-          await ssh.putFile(localZipPath, zipRemoteFullPath)
-          await fs.remove(localZipPath)
+          fs.existsSync(localZipPath) && fs.removeSync(localZipPath)
+          const total = await compress(localFullPath, localZipPath)
+          const bar = upload(total)
+          await ssh.putFile(localZipPath, zipRemoteFullPath, null, {
+            step: (total_transferred, chunk) => {
+              bar.tick(chunk)
+            },
+          })
           const MainIsExist = await getFileStatus(basename, true, remotePath)
           if (MainIsExist) {
             await backUp(basename, remotePath)
           }
           await runCommand(`unzip ${basename}.zip -d dist && rm -rf ${basename}.zip`, remotePath)
+          fs.removeSync(localZipPath)
           // 成功部署
           resolve('success')
         } catch (err) {
@@ -93,6 +116,9 @@ async function sshConnect({ host, username, port, password, privateKey, localPat
       })
       .catch(err => {
         reject(err)
+      })
+      .finally(() => {
+        ssh.dispose()
       })
   })
 }
