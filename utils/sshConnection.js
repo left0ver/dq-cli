@@ -8,6 +8,16 @@ const cwd = require('../utils/getCwd')
 const archiver = require('archiver')
 const spinner = ora()
 const ssh = new NodeSSH()
+
+const State = {
+  uploadSuccess: '上传成功',
+  uploadFailure: '上传失败',
+  deploying: '部署中',
+  endDeploy: '部署完成',
+  connectFailure: '连接失败',
+}
+const compressType = '.zip'
+const bakType = '.bak'
 // 在远程服务器执行某个命令
 function runCommand(command, cwd = '/') {
   return new Promise((resolve, reject) => {
@@ -19,6 +29,7 @@ function runCommand(command, cwd = '/') {
       .catch(err => reject(err))
   })
 }
+
 // 判断文件和目录是否存在
 async function getFileStatus(name, isDir = true, cwd = '/') {
   const { stdout } = isDir
@@ -26,23 +37,29 @@ async function getFileStatus(name, isDir = true, cwd = '/') {
     : await runCommand(`find  -type f -name ${name}`, cwd)
   return stdout !== ''
 }
+
 // 压缩
 function compress(unZipDirPath, zipDirPath) {
+  const CompressState = {
+    startCompress: '开始压缩',
+    compressFailure: '压缩失败',
+    compressCompleted: '压缩完成',
+  }
   return new Promise((resolve, reject) => {
     const archive = archiver('zip', {
       zlib: { level: 9 },
     })
     const output = fs.createWriteStream(zipDirPath)
     archive.on('error', function (err) {
-      spinner.fail('压缩失败')
+      spinner.fail(CompressState.compressFailure)
       throw err
     })
     output.on('close', function () {
       resolve(archive.pointer())
-      spinner.succeed('压缩完成')
+      spinner.succeed(CompressState.compressCompleted)
     })
     output.on('open', function () {
-      spinner.start('开始压缩')
+      spinner.start(CompressState.startCompress)
     })
     try {
       archive.pipe(output)
@@ -53,11 +70,12 @@ function compress(unZipDirPath, zipDirPath) {
     }
   })
 }
+
 // 上传进度条
 function upload(total) {
   const bar = new ProgressBar('upload [:bar] :percent ', {
     total,
-    width: 200,
+    width: 50,
     complete: '=',
     incomplete: ' ',
   })
@@ -66,16 +84,14 @@ function upload(total) {
 // 备份
 async function backUp(basename, cwd) {
   // 备份目录
-  const bakDir = basename + '.bak'
-  // 备份目录的状态
-  const bakIsExist = await getFileStatus(basename + '.bak', true, cwd)
+  const bakDir = basename + bakType
+  const bakIsExist = await getFileStatus(bakDir, true, cwd)
   if (bakIsExist) {
-    // 删除原先备份目录
+    // 删除原来的备份目录
     await runCommand(`rm -rf ${bakDir}`, cwd)
   }
   await runCommand(`mv ${basename} ${bakDir}`, cwd)
 }
-
 async function sshConnect({
   host,
   username,
@@ -99,9 +115,28 @@ async function sshConnect({
         //   本地地址
         const localFullPath = path.isAbsolute(localPath) ? localPath : path.resolve(cwd, localPath)
         const basename = path.basename(localFullPath)
-        const localZipPath = path.resolve(process.cwd(), basename + '.zip')
+        const compressBasename = basename + compressType
+        const localZipPath = path.resolve(process.cwd(), compressBasename)
+
         // 解压之前的路径
-        const zipRemoteFullPath = path.posix.resolve(remotePath, basename + '.zip')
+        const zipRemoteFullPath = path.posix.resolve(remotePath, compressBasename)
+
+        // 部署
+        async function deploy() {
+          const MainIsExist = await getFileStatus(basename, true, remotePath)
+          if (MainIsExist) {
+            await backUp(basename, remotePath)
+          }
+          await runCommand(
+            `unzip ${compressBasename} -d ${basename} && rm -rf ${compressBasename}`,
+            remotePath
+          )
+          if (command !== undefined) {
+            await runCommand(command)
+          }
+          fs.removeSync(localZipPath)
+        }
+
         // 上传
         try {
           if (!fs.existsSync(localFullPath)) {
@@ -115,33 +150,22 @@ async function sshConnect({
             step: (total_transferred, chunk, total) => {
               bar.tick(chunk)
               if (total_transferred === total) {
-                spinner.succeed('上传成功')
+                spinner.succeed(State.uploadSuccess)
               }
             },
           })
-          spinner.start('部署中')
-          const MainIsExist = await getFileStatus(basename, true, remotePath)
-          if (MainIsExist) {
-            await backUp(basename, remotePath)
-          }
-          await runCommand(
-            `unzip ${basename}.zip -d ${basename} && rm -rf ${basename}.zip`,
-            remotePath
-          )
-          if (command !== undefined) {
-            await runCommand(command)
-          }
-          fs.removeSync(localZipPath)
+          spinner.start(State.deploying)
+          await deploy()
           // 成功部署
-          resolve('部署完成')
-          spinner.succeed('部署完成')
+          resolve(State.endDeploy)
+          spinner.succeed(State.endDeploy)
         } catch (err) {
           reject(err)
-          spinner.fail('上传失败')
+          spinner.fail(State.uploadFailure)
         }
       })
       .catch(err => {
-        spinner.fail('连接失败')
+        spinner.fail(State.connectFailure)
         reject(err)
       })
       .finally(() => {
