@@ -1,6 +1,6 @@
 {
   "name": "ldq-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "node实现自动化部署项目至服务器",
   "keywords": [
     "ldq-cli",
