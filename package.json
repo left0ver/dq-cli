@@ -1,7 +1,7 @@
 {
   "name": "ldq-cli",
   "version": "0.0.9",
-  "description": "node实现自动化部署项目至服务器",
+  "description": "一个前端脚手架,可以自动部署项目至服务器，也可以拉取项目模板构建项目",
   "keywords": [
     "ldq-cli",
     "cli",
