@@ -49,7 +49,7 @@ $ dq build --help
 -k --privateKey [privateKey]  私钥保存的位置,绝对路径
 -P --PWD [password]           登录密码
 -l --local [localPath]        要上传的文件夹的位置,默认是当前工作目录的dist文件夹
--d --dest [destination]       要上传的服务器的哪个目录下,必须使用绝对路径
+-d --dest [destination]       要上传的服务器的哪个目录下,默认为：/,必须使用绝对路径
 -c --config [config]          选择配置文件的路径,默认当前工作目录下的dq.config.json文件
 -e --exec [command]           上传文件之后在服务器中执行的命令
 -h, --help                    display help for command
@@ -70,7 +70,7 @@ $ dq -H  10.23.5.8 -p 22 -u root -k C:\Users\ASUS\.ssh\id_rsa_client -P 123456 -
   "privateKey": "",
   "password": "",
   "localPath": "./dist",
-  "remotePath": "",
+  "remotePath": "/",
   "command":""
 }
 
