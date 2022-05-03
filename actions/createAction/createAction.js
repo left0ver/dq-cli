@@ -16,7 +16,7 @@ const spinner = ora()
 
 const info = chalk.yellow
 const templateTypes = ['node-less-template']
-const installWays = ['npm', 'yarn', 'cnpm']
+const installWays = ['npm', 'yarn']
 
 function handleProjectName(project) {
   project = project.trim().replace(/\//g, '_')

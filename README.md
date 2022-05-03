@@ -2,17 +2,21 @@
 
 ![GitHub](https://img.shields.io/github/license/left0ver/dq-cli) ![npm](https://img.shields.io/npm/v/ldq-cli)
 
-dq-cli 是一个命令行工具，配置项简单，既可以一条命令即可让你将项目部署至 windows 或者 Linux 服务器，也可也帮助你搭建迅速搭建一个前端工程化的项目
+dq-cli 是一个命令行工具，配置项简单，既可以一条命令即可让你将项目部署至 Linux 服务器，也可以拉取模板帮助你搭建迅速搭建一个前端工程化的项目
 
 # 特点
 
 - 命令行部署项目
 - 使用现成的模板搭建项目，迅速搭建起一个规范的项目
 
-# 下载
+# 模板
+
+[模板列表](https://github.com/dq-cli-template),每套模板里面都内置了 eslint,prettier,stylelint,commitizen,commitlint,husky,你可以在这个基础上添加你自己的配置，也可以使用模板的配置,所有配置文件均可见,修改起来简单方便
+
+# Install
 
 ```
- npm i ldq-cli -g
+ npm install ldq-cli -g
 ```
 
 > 不要打错了哦
@@ -25,6 +29,7 @@ dq --help
   Commands:
     init             初始化配置文件
     build [options]  将本地的指定文件夹部署到服务器
+    create <project>  拉取模板创建项目
     help [command]   display help for command
 ```
 
@@ -81,10 +86,6 @@ $ dq -H  10.23.5.8 -p 22 -u root -k C:\Users\ASUS\.ssh\id_rsa_client -P 123456 -
 `1. 该工具暂时只在Windows电脑上进行测试（其实是没钱买mac），如需在mac或者Linux上运行，请自测，以后会在Linux测试`
 
 `2. Windows里面不要使用`bash` 运行，会导致路径对不上，导致部署的文件夹错误`
-
-# 未来的计划
-
-1. 新增拉取符合规范的项目模板，帮助您快速构建项目
 
 # Licence
 
