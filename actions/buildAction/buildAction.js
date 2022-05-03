@@ -21,7 +21,7 @@ function buildAction(options) {
     let finalConfig
     let userConfigPath
     if (options.config === true) {
-      throw new Error('缺少对应的配置文件的路径')
+      reject('缺少对应的配置文件的路径')
     } else if (options.config !== undefined) {
       // 用户指定路径的配置文件
       userConfigPath = path.isAbsolute(options.config)

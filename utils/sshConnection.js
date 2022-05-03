@@ -117,7 +117,6 @@ async function sshConnect({
         const basename = path.basename(localFullPath)
         const compressBasename = basename + compressType
         const localZipPath = path.resolve(process.cwd(), compressBasename)
-
         // 解压之前的路径
         const zipRemoteFullPath = path.posix.resolve(remotePath, compressBasename)
 
@@ -140,7 +139,11 @@ async function sshConnect({
         // 上传
         try {
           if (!fs.existsSync(localFullPath)) {
-            throw new Error(`${localFullPath}文件不存在`)
+            throw new Error(`localPath:${localFullPath}不存在`)
+          }
+
+          if (!(await getFileStatus(path.basename(remotePath), true, path.dirname(remotePath)))) {
+            throw new Error(`remotePath:${remotePath}不存在`)
           }
           fs.existsSync(localZipPath) && fs.removeSync(localZipPath)
           const total = await compress(localFullPath, localZipPath)
@@ -160,8 +163,8 @@ async function sshConnect({
           resolve(State.endDeploy)
           spinner.succeed(State.endDeploy)
         } catch (err) {
-          reject(err)
           spinner.fail(State.uploadFailure)
+          reject(err)
         }
       })
       .catch(err => {

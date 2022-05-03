@@ -5,6 +5,6 @@
     "privateKey": "",
     "password": "",
     "localPath":"./dist",
-    "remotePath":"",
+    "remotePath":"/",
     "command":""
 }

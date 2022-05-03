@@ -1,4 +1,5 @@
 const { program } = require('commander')
+const chalk = require('chalk')
 const { buildAction } = require('../actions/index')
 function BuildCommand() {
   program
@@ -10,11 +11,16 @@ function BuildCommand() {
     .option('-k --privateKey [privateKey]', '私钥保存的位置,绝对路径')
     .option('-P --PWD [password]', '登录密码')
     .option('-l --local [localPath]', '要上传的文件夹的位置,默认是当前工作目录的dist文件夹')
-    .option('-d --dest [destination]', '要上传的服务器的哪个目录下,必须使用绝对路径')
+    .option('-d --dest [destination]', '要上传的服务器的哪个目录下,默认为：/,必须使用绝对路径')
     .option('-c --config [config]', '选择配置文件的路径,默认当前工作目录下的dq.config.json文件')
     .option('-e --exec [command]', '上传文件之后在服务器中执行的命令')
     .action(async (...args) => {
-      await buildAction(...args)
+      try {
+        await buildAction(...args)
+      } catch (error) {
+        console.log(chalk.red.bold(`[build] ${error}`))
+        process.exit(1)
+      }
     })
 }
 module.exports = BuildCommand
