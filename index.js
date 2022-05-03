@@ -2,10 +2,10 @@
 'use strict'
 const { program } = require('commander')
 const packageJSon = require('./package.json')
-const { createBuildCommand } = require('./command/index')
-const { initCommand } = require('./command/index')
+const { BuildCommand, initCommand, createCommand } = require('./command/index')
 const version = packageJSon.version
 program.version(version)
 initCommand()
-createBuildCommand()
+BuildCommand()
+createCommand()
 program.parse(process.argv)

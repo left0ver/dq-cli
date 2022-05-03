@@ -1,10 +1,10 @@
 const { existsSync } = require('fs-extra')
 const path = require('path')
-const cwd = require('../utils/getCwd')
-const sshConnect = require('../utils/sshConnection')
-const mergeConfig = require('../utils/mergeConfig')
-const defaultConfig = require('../config/dq.config.default.json')
-const configName = require('../config/configName')
+const cwd = require('../../utils/getCwd')
+const sshConnect = require('../../utils/sshConnection')
+const mergeConfig = require('../../utils/mergeConfig')
+const defaultConfig = require('../../config/dq.config.default.json')
+const configName = require('../../config/configName')
 function buildAction(options) {
   // 命令行输入的配置
   const inputConfig = {

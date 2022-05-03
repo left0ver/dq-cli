@@ -39,12 +39,16 @@
   "homepage": "https://github.com/left0ver/dq-cli#readme",
   "dependencies": {
     "archiver": "^5.3.1",
+    "chalk": "^4.1.2",
     "commander": "^9.2.0",
+    "download-git-repo": "^3.0.2",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.2",
     "node-ssh": "^12.0.4",
+    "npminstall": "^6.1.0",
     "ora": "^5.4.1",
-    "progress": "^2.0.3"
+    "progress": "^2.0.3",
+    "supports-color": "^8.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",

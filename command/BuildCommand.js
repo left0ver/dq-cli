@@ -1,6 +1,6 @@
 const { program } = require('commander')
 const { buildAction } = require('../actions/index')
-function createBuildCommand() {
+function BuildCommand() {
   program
     .command('build')
     .description('将本地的指定文件夹部署到服务器')
@@ -17,4 +17,4 @@ function createBuildCommand() {
       await buildAction(...args)
     })
 }
-module.exports = createBuildCommand
+module.exports = BuildCommand
