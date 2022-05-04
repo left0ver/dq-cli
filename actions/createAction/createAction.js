@@ -5,6 +5,7 @@ const download = promisify(require('download-git-repo'))
 const inquirer = require('inquirer')
 const ora = require('ora')
 const chalk = require('chalk')
+const kebabCase = require('kebab-case')
 const cwd = require('../../utils/getCwd')
 const execCommand = require('../../utils/execCommand')
 const {
@@ -34,6 +35,15 @@ function validateProjectName(project) {
 
 function getDownAddress(templateType) {
   return `github:dq-cli-template/${templateType}#main`
+}
+
+//修改项目中package.json的name
+function changePackageName(packageJsonPath, projectName) {
+  const packageJsonData = fs.readFileSync(packageJsonPath)
+  const temp = JSON.parse(packageJsonData.toString())
+  // 将项目名转成kebab-case的形式
+  temp.name = kebabCase(projectName)
+  fs.writeFileSync(packageJsonPath, JSON.stringify(temp, null, 2))
 }
 
 async function createAction(project) {
@@ -81,13 +91,15 @@ async function createAction(project) {
     ERROR_INSTALLWAY_NOT_EXIST(installWay)
   }
   try {
-    await execCommand(`${installWay} install && git init &&npx husky install`, {
+    await execCommand(`${installWay} install && git init && npx husky install`, {
       cwd: projectPath,
       stdio: 'inherit',
     })
   } catch (error) {
     throw new Error(chalk.red.bold(error))
   }
+  const packageJsonPath = path.resolve(projectPath, 'package.json')
+  changePackageName(packageJsonPath, projectName)
   // stdio: 'inherit' 子进程通过相应的标准输入输出流传入/传出父进程，这样可以显示出安装过程
   console.log(`${info('    cd ')}${info(projectName)}`)
 }
