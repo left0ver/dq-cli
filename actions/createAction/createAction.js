@@ -81,7 +81,10 @@ async function createAction(project) {
     ERROR_INSTALLWAY_NOT_EXIST(installWay)
   }
   try {
-    await execCommand(`${installWay} install`, { cwd: projectPath, stdio: 'inherit' })
+    await execCommand(`${installWay} install && git init &&npx husky install`, {
+      cwd: projectPath,
+      stdio: 'inherit',
+    })
   } catch (error) {
     throw new Error(chalk.red.bold(error))
   }
