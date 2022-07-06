@@ -16,7 +16,7 @@ const {
 const spinner = ora()
 
 const info = chalk.yellow
-const templateTypes = ['node-less-template']
+const templateTypes = ['node-less-template','vue3-pinia-ts-template']
 const installWays = ['npm', 'yarn']
 
 function handleProjectName(project) {
