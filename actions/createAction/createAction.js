@@ -16,7 +16,7 @@ const {
 const spinner = ora()
 
 const info = chalk.yellow
-const templateTypes = ['node-less-template']
+const templateTypes = ['node-less-template', 'vue3-pinia-ts-template']
 const installWays = ['npm', 'yarn']
 
 function handleProjectName(project) {
@@ -91,7 +91,7 @@ async function createAction(project) {
     ERROR_INSTALLWAY_NOT_EXIST(installWay)
   }
   try {
-    await execCommand(`${installWay} install && git init && npx husky install`, {
+    await execCommand(`git init && ${installWay} install && npx husky install`, {
       cwd: projectPath,
       stdio: 'inherit',
     })
