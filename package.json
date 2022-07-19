@@ -42,6 +42,7 @@
     "chalk": "^4.1.2",
     "commander": "^9.2.0",
     "download-git-repo": "^3.0.2",
+    "figlet": "^1.5.2",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.2",
     "kebab-case": "^1.0.1",
