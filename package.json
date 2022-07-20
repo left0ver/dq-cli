@@ -1,6 +1,6 @@
 {
   "name": "ldq-cli",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "一个前端脚手架,可以自动部署项目至服务器，也可以拉取项目模板构建项目",
   "keywords": [
     "ldq-cli",
