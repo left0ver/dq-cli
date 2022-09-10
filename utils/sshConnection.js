@@ -49,10 +49,10 @@ function compress(unZipDirPath, zipDirPath) {
   }
   return new Promise((resolve, reject) => {
     const archive = archiver('tar', {
-      gzip:true,
-      gzipOptions:{
-        level:9
-      }
+      gzip: true,
+      gzipOptions: {
+        level: 9,
+      },
     })
     const output = fs.createWriteStream(zipDirPath)
     archive.on('error', function (err) {
@@ -148,16 +148,16 @@ async function sshConnect({
           }
 
           if (!(await getFileStatus(path.basename(remotePath), true, path.dirname(remotePath)))) {
-           const {shouldCreate}= await inquirer.prompt({
-              type:'confirm',
-              name:'shouldCreate',
+            const { shouldCreate } = await inquirer.prompt({
+              type: 'confirm',
+              name: 'shouldCreate',
               message: '是否创建新的目录',
               default: 'N',
               prefix: '🚀',
             })
             if (shouldCreate) {
-              runCommand(`mkdir ${remotePath}`,'/') 
-            }else{
+              runCommand(`mkdir ${remotePath}`, '/')
+            } else {
               console.log(chalk.red(`remotePath:${remotePath}不存在`))
               process.exit(1)
             }
