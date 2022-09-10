@@ -6,6 +6,8 @@ const ora = require('ora')
 const { NodeSSH } = require('node-ssh')
 const cwd = require('../utils/getCwd')
 const archiver = require('archiver')
+const chalk = require('chalk')
+const inquirer = require('inquirer')
 const spinner = ora()
 const ssh = new NodeSSH()
 
@@ -146,7 +148,19 @@ async function sshConnect({
           }
 
           if (!(await getFileStatus(path.basename(remotePath), true, path.dirname(remotePath)))) {
-            throw new Error(`remotePath:${remotePath}不存在`)
+           const {shouldCreate}= await inquirer.prompt({
+              type:'confirm',
+              name:'shouldCreate',
+              message: '是否创建新的目录',
+              default: 'N',
+              prefix: '🚀',
+            })
+            if (shouldCreate) {
+              runCommand(`mkdir ${remotePath}`,'/') 
+            }else{
+              console.log(chalk.red(`remotePath:${remotePath}不存在`))
+              process.exit(1)
+            }
           }
           fs.existsSync(localZipPath) && fs.removeSync(localZipPath)
           const total = await compress(localFullPath, localZipPath)
