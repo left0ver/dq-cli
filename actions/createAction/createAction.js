@@ -76,7 +76,8 @@ async function createAction(project) {
       prefix: '🛠️',
     },
   ])
-  ;(spinner.prefixText = '🚀'), (spinner.color = 'green')
+  spinner.prefixText = '🚀', 
+  spinner.color = 'green'
   spinner.start('下载中...')
   try {
     await download(getDownAddress(templateType), projectName, { clone: true })
