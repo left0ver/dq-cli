@@ -16,7 +16,7 @@ const State = {
   endDeploy: '部署完成',
   connectFailure: '连接失败',
 }
-const compressType = '.zip'
+const compressType = '.tar.gz'
 const bakType = '.bak'
 // 在远程服务器执行某个命令
 function runCommand(command, cwd = '/') {
@@ -46,8 +46,11 @@ function compress(unZipDirPath, zipDirPath) {
     compressCompleted: '压缩完成',
   }
   return new Promise((resolve, reject) => {
-    const archive = archiver('zip', {
-      zlib: { level: 9 },
+    const archive = archiver('tar', {
+      gzip:true,
+      gzipOptions:{
+        level:9
+      }
     })
     const output = fs.createWriteStream(zipDirPath)
     archive.on('error', function (err) {
@@ -127,7 +130,7 @@ async function sshConnect({
             await backUp(basename, remotePath)
           }
           await runCommand(
-            `unzip ${compressBasename} -d ${basename} && rm -rf ${compressBasename}`,
+            `mkdir ${basename} && tar -zxvf ${compressBasename} -C ${basename} && rm -rf ${compressBasename}`,
             remotePath
           )
           if (command !== undefined) {
